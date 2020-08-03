@@ -1,0 +1,96 @@
+
+
+<div class="row">
+  <div *ngIf="!is_loaded" id="nb-dashboard-spinner" class="spinner" style="position: relative;display: block;width: 100vw;height:40vw;">
+    <div class="blob blob-0"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+  </div>
+  <div class="row"  *ngIf="is_loaded">
+    <div class="col-xxxl-3 col-md-6" *ngFor="let statusCard of statusCards">
+    <ngx-status-card [title]="statusCard.title" [type]="statusCard.type" [t]="statusCard.t" [nbr]="statusCard.nbr">
+      <i [ngClass]="statusCard.iconClass"></i>
+    </ngx-status-card>
+  </div>
+  </div>
+  <div *ngIf="show_table">
+    <h5 style="text-align: center;width: 100%">{{title_of_table}} </h5>
+  <ng2-smart-table  #table [settings]="settings"  [source]="source" (deleteConfirm)="onDeleteConfirm($event,dialog,dialog_conf)" (editConfirm)="onEditConfirm($event,dialog,dialog_conf)">
+  </ng2-smart-table>
+  </div>
+  </div>
+
+<div *ngIf="is_loaded" class="row">
+  <div class="col-xxxl-12 col-xxl-12 col-lg-12 col-md-12">
+    <ngx-devices></ngx-devices>
+  </div>
+<!--
+  <div class="col-xxxl-9 col-xxl-8 col-lg-7 col-md-6">
+    <ngx-electricity></ngx-electricity>
+  </div>
+  -->
+</div>
+<!--
+<div class="row">
+  <div class="col-xxxl-9 col-xl-12">
+    <ngx-rooms></ngx-rooms>
+  </div>
+
+  <div class="col-xxxl-3 col-xxl-4 col-lg-7 col-md-6">
+    <ngx-contacts></ngx-contacts>
+  </div>
+
+  <div class="col-xxxl-3 col-xxl-4 col-lg-5 col-md-6">
+    <ngx-solar [chartValue]="solarValue"></ngx-solar>
+
+    <ngx-kitten></ngx-kitten>
+  </div>
+
+  <div class="col-xxxl-3 col-xxl-4 col-md-5">
+    <ngx-traffic></ngx-traffic>
+    <ngx-weather></ngx-weather>
+  </div>
+
+  <div class="col-xxxl-6 col-xxl-12 col-md-7">
+    <ngx-security-cameras></ngx-security-cameras>
+  </div>
+</div>
+-->
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card>
+    <div *ngIf="confirmed" id="nb-dialog-spinner" class="spinner" style="position: relative;display: block;width: 20vw;height:20vw;">
+      <div class="blob blob-0"></div>
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="blob blob-4"></div>
+      <div class="blob blob-5"></div>
+    </div>
+    <nb-card-header >Attention ! </nb-card-header>
+    <nb-card-body *ngIf="!confirmed">{{ data }}</nb-card-body>
+    <nb-card-footer *ngIf="!confirmed">
+
+      <button nbButton  (click)="d=false;ref.close();false">NON</button>
+      <button nbButton style="float: right;" (click)="d=true;me();ref.close()">Oui</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+
+<ng-template style="width: 50%" #dialog_conf let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header style="text-align: center;font-size: 26px"  [ngStyle]="{'color' : etat == 'succes' ? 'green' : 'red'}">{{etat}}</nb-card-header>
+    <nb-card-body style="text-align: center;font-size: 26px" [ngStyle]="{'color' : etat == 'succes' ? 'green' : 'red'}">{{ data }}</nb-card-body>
+    <img src="assets/images/{{etat}}.png" style="    border-style: none;
+    width: 20%;
+    height: 20%;
+    margin-left: 40%;"/>
+    <nb-card-footer>
+      <button nbButton style="margin-left: 46.5%"  (click)="ref.close()">OK</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+

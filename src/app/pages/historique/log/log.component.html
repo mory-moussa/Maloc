@@ -1,0 +1,40 @@
+
+<div class="row">
+  <div class="col-md-12 col-lg-12 col-xxxl-12">
+    <nb-card>
+      <nb-card-header>Afficher le LOG</nb-card-header>
+      <nb-card-body >
+
+        <input type="text" nbInput placeholder="Imei" [(ngModel)]="imei" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength="16" style="margin: 0.5em">
+
+        <input nbInput style="margin: 0.5em" readonly placeholder="choisir une periode" [nbDatepicker]="rangepicker" [(ngModel)]="test">
+        <nb-rangepicker #rangepicker format="yyyy-MM-dd"></nb-rangepicker>
+
+        <button style="margin: 0.5em" (click)="show()" nbButton >
+          Rechercher
+        </button>
+
+      </nb-card-body>
+    </nb-card>
+    <nb-card *ngIf="columns">
+      <nb-card-header>IO Liste </nb-card-header>
+      <nb-card-body >
+        <button style="margin: 0.5em" *ngFor="let key of ObjectKeys(columns)" [ngStyle]="{'background-color' : columns[key].enable ? '' :'lightslategray'}" (click)="afficher(columns[key],key)" nbButton >
+          {{key}}
+        </button>
+
+      </nb-card-body>
+    </nb-card>
+    <nb-card *ngIf="columns">
+      <nb-card-header>DATA Liste </nb-card-header>
+      <nb-card-body >
+          <ng2-smart-table  #table [settings]="mySettings"  [source]="source">
+          </ng2-smart-table>
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+
+  <button ></button>
+  test : {{test}}
+</div>
